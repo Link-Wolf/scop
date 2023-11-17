@@ -6,13 +6,15 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:03:17 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/17 12:43:09 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/17 15:28:59 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/scop.h"
 
 using namespace std;
+
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 // unsigned int    compileShader(const string &path, GLenum shader_type)
 // {
@@ -41,9 +43,11 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-    unsigned int    vertex_shader;
-    unsigned int    fragment_shader;
-    unsigned int    shaderProgram;
+	(void)argc;
+	(void)argv;
+    // unsigned int    vertex_shader;
+    // unsigned int    fragment_shader;
+    // unsigned int    shaderProgram;
 
 	// Initialize GLFW
     if (!glfwInit()) {
@@ -111,12 +115,18 @@ int main(int argc, char **argv)
         glfwPollEvents();
     }
 		
+    // glDeleteProgram(shaderProgram);
+	
 	// Terminate GLFW
-    glDeleteProgram(shaderProgram);
+	glfwTerminate();
+	return 0;
 }
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+	(void)scancode;
+	(void)mods;
+	
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
