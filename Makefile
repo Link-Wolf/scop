@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/11/15 16:03:22 by bdehais           #+#    #+#              #
-#    Updated: 2023/11/15 16:04:57 by xxxxxxx          ###   ########.fr        #
+#    Created: 2023/11/15 16:03:22 by xxxxxxx           #+#    #+#              #
+#    Updated: 2023/11/17 12:43:08 by xxxxxxx          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ OBJS			=	$(SRCS:.cpp=.o)
 CC		=	c++
 CFLAGS	=	-Wall -Wextra -Werror
 RM		=	rm -rf
+LIBS	=	-lglfw -lGLU -lGL -lXrandr -lXxf86vm -lXi -lXinerama -lX11 -lrt -ldl -lGLEW
 
 OBJ_COLOR		=		"\e[38;5;147m"
 CLN_COLOR		=		"\e[38;5;124m"
@@ -30,7 +31,7 @@ ERRASE_LINE		=		"\e[2K\r"
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) -o $(NAME)
+	@$(CC) $(OBJS) -o $(NAME) $(LIBS)
 	@printf $(ERRASE_LINE)$(BIN_COLOR)"\t"$(NAME)"\t\t\t\t[ ✓ ]\n\e[0m"
 
 %.o: %.cpp
