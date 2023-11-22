@@ -6,20 +6,20 @@
 #    By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/15 16:03:22 by xxxxxxx           #+#    #+#              #
-#    Updated: 2023/11/17 15:25:01 by xxxxxxx          ###   ########.fr        #
+#    Updated: 2023/11/22 15:03:00 by xxxxxxx          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	scop
 
-SRCS_FILES		=	scop
+SRCS_FILES		=	scop keys manage_shaders
 
 SRCS			=	$(addsuffix .cpp, $(addprefix srcs/, $(SRCS_FILES)))
 
 OBJS			=	$(SRCS:.cpp=.o)
 
 CC		=	c++
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	#-Wall -Wextra -Werror
 RM		=	rm -rf
 LIBS	=	-lglfw -lGLU -lGL -lXrandr -lXxf86vm -lXi -lXinerama -lX11 -lrt -ldl -lGLEW
 DBG_FLAG=	-g3 -fsanitize=address
