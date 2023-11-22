@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:03:17 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/22 17:45:33 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/22 18:06:34 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ int main(int argc, char **argv)
         0.5f,  0.5f, 0.0f,  // top right
         0.5f, -0.5f, 0.0f,  // bottom right
         -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left
+       // -0.5f,  0.5f, 0.0f   // top left
     };
     unsigned int indices[] = {  // note that we start from 0!
-        0, 1, 3,   // first triangle
+        0,1,2//0, 1, 2   // first triangle
         // 1, 2, 3    // second triangle
     };
 	
@@ -111,7 +111,8 @@ int main(int argc, char **argv)
 
 	
 
-	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+	glPolygonMode( GL_FRONT, GL_LINE );
+	glPolygonMode( GL_BACK, GL_LINE );
 
 	
 
@@ -130,7 +131,7 @@ int main(int argc, char **argv)
 		
 		//Draw here 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
 		
 		// Swap front and back buffers to update the screen
         glfwSwapBuffers(window);
