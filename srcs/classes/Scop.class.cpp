@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:55:31 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/23 14:47:30 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/23 15:27:20 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ Scop::Scop(void) {
         return ;
     }
 	
-	_window = glfwCreateWindow(800, 600, "OpenGL Window", nullptr, nullptr); //Parameters: width, height, title, monitor, share
+	_window = glfwCreateWindow(800, 600, "scop", nullptr, nullptr); //Parameters: width, height, title, monitor, share
 	if (!_window) {
 		cerr << "Failed to create GLFW window" << endl;
 		glfwTerminate();
