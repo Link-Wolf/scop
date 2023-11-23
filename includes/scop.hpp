@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scop.h                                             :+:      :+:    :+:   */
+/*   scop.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:35:33 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/22 15:04:51 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/23 14:48:14 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,17 @@
  #include <sstream>
  #include <cstring>
 
+ #include "../srcs/classes/Scop.class.hpp"
+
  using namespace std;
 
 
  unsigned int	compileShader(const string &path, GLenum shader_type);
 
  void			key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+ void			draw(Scop &scop);
+
 
 
 #endif

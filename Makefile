@@ -6,13 +6,17 @@
 #    By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/15 16:03:22 by xxxxxxx           #+#    #+#              #
-#    Updated: 2023/11/22 15:03:00 by xxxxxxx          ###   ########.fr        #
+#    Updated: 2023/11/23 14:38:03 by xxxxxxx          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	scop
 
-SRCS_FILES		=	scop keys manage_shaders
+SRCS_FILES		=	scop \
+					draw \
+					keys \
+					manage_shaders \
+					classes/Scop.class
 
 SRCS			=	$(addsuffix .cpp, $(addprefix srcs/, $(SRCS_FILES)))
 
