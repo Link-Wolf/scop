@@ -6,17 +6,24 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:03:17 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/23 15:20:37 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/24 16:50:18 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "classes/Scop.class.hpp"
+#include "classes/Parser.class.hpp"
 #include "../includes/scop.hpp"
 
 GLenum currentPolygonMode = GL_FILL;
 
 int main(int argc, char **argv)
 {
+	//check that there is only one argument and that it is a .obj file
+	if (argc != 2 || std::string(argv[1]).compare(std::string(argv[1]).size() - 4, 4, ".obj")) {
+		cerr << "Usage: ./scop <filename>.obj" << endl;
+		return -1;
+	}
+	
 	Scop scop;	
 	
 	if (scop.check()) {
@@ -24,6 +31,8 @@ int main(int argc, char **argv)
         glfwTerminate();
         return -1;
     }
+
+	Parser parser(scop, argv[1]);
 
 	scop.addShaderProgram();
 	
@@ -33,7 +42,10 @@ int main(int argc, char **argv)
     glUseProgram(scop.getShaderProgram());
 
 	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL ); // GL_FILL / GL_LINE / GL_POINT
+	glEnable(GL_DEPTH_TEST); // So the triangles are drawn in the right order
+	glEnable(GL_CULL_FACE); // So the triangles are not transparent ? (I don't know, maybe it's the opposite) 
 	
+	// draw(parser.getScop());
 	draw(scop);
 	
     glDeleteProgram(scop.getShaderProgram());

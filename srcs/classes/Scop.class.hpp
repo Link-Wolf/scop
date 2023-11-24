@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:55:28 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/23 14:44:22 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/24 16:36:30 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,21 @@ class Scop
 		
 	public:
 		Scop();
+		Scop(const Scop &src);
 		~Scop();
+
+		Scop	&operator=(const Scop &rhs);
 		
-		GLFWwindow				*getWindow(void);
-		unsigned int			getShaderProgram(void);
-		unsigned int			getVBO(void);
-		unsigned int			getVAO(void);
-		unsigned int			getEBO(void);
-		vector<float>			getVertices(void);
-		vector<unsigned int>	getIndices(void);
+		GLFWwindow				*getWindow(void) const;		
+		const unsigned int			getShaderProgram(void) const;
+		const unsigned int			getVBO(void) const;
+		const unsigned int			getVAO(void) const;
+		const unsigned int			getEBO(void) const;
+		const vector<float>			getVertices(void) const;
+		const vector<unsigned int>	getIndices(void) const;
+
+		void			setVertices(vector<struct Vertex> vertices);
+		void			setIndices(vector<struct Face> indices);
 		
 		bool			check(void);
 		void			addShaderProgram(void);

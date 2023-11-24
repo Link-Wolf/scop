@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:55:31 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/23 15:27:20 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/24 16:56:39 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@
  */
 
 Scop::Scop(void) {
-	
 	// Initialize GLFW
     if (!glfwInit()) {
         cerr << "Failed to initialize GLFW" << endl;
         return ;
     }
 	
-	_window = glfwCreateWindow(800, 600, "scop", nullptr, nullptr); //Parameters: width, height, title, monitor, share
+	_window = glfwCreateWindow(1200, 1200, "scop", nullptr, nullptr); //Parameters: width, height, title, monitor, share
 	if (!_window) {
 		cerr << "Failed to create GLFW window" << endl;
 		glfwTerminate();
@@ -60,44 +59,40 @@ Scop::Scop(void) {
 		return ;
 	}
 
-
-	_vertices = {
-        0.5f,  0.5f, 0.0f,  // top right
-        0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left
-    };
-   _indices = {  // note that we start from 0!
-        0, 1, 3,   // first triangle
-        1, 2, 3    // second triangle
-    };
-
-
-	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+// 	_vertices = {
+//         0.0f, 0.5f, 0.0f,   	// S
+//         0.0f, -0.5f, -0.5f,    	// A
+//         -0.5f, -0.5f, 0.5f,		// B
+//         0.5f, -0.5f, 0.5f,		// C
+//     };
+//    _indices = {  // note that we start from 0!
+//         0, 1, 2,            // SBA
+//         0, 2, 3,            // SBC
+//         0, 3, 1,            // SCA
+//         1, 3, 2             // ACB
+//     };
 	
-	// VAO = Store all the vertex attributes in the GPU's memory (VBO + EBO + vertexAttribute)
-	unsigned int VAO; // Vertex Array Object	
-    glGenVertexArrays(1, &VAO); //oui
-    glBindVertexArray(VAO); //bind pour utiliser lui quand on a besoin d'un VAO
-
-	// VBO = Store all the vertices in the GPU's memory
-	unsigned int VBO;
-    glGenBuffers(1, &VBO); //oui
-    glBindBuffer(GL_ARRAY_BUFFER, VBO); //bind pour utiliser lui quand on a besoin d'un VBO
-    glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(float), &(_vertices[0]), GL_STATIC_DRAW); ///init the buffer with the vertices
-
-	// EBO = Store all the indices (that are used to draw faces) in the GPU's memory
-	unsigned int EBO;
-    glGenBuffers(1, &EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(unsigned int), &(_indices)[0], GL_STATIC_DRAW);
-
-
-	// tell OpenGL how it should interpret the vertex data (per vertex attribute)
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); // start at 0 / x y z / float type / normalize / size of each vertex / not offset
-    glEnableVertexAttribArray(0); // enable the vertex attribute at location 0
-
 	_check = 0;
+}
+
+Scop::Scop(const Scop &src) {
+	*this = src;
+}
+
+Scop	&Scop::operator=(const Scop &rhs) {
+	if (this != &rhs) {
+		_check = rhs._check;
+		_window = rhs._window;
+		_shaderProgram = rhs._shaderProgram;
+		_VBO = rhs._VBO;
+		_VAO = rhs._VAO;
+		_EBO = rhs._EBO;
+		_fragment_shader = rhs._fragment_shader;
+		_vertex_shader = rhs._vertex_shader;
+		_vertices = rhs._vertices;
+		_indices = rhs._indices;
+	}
+	return *this;
 }
 
 /*
@@ -130,30 +125,46 @@ bool	Scop::check(void) {
  ******************************** ACCESSOR ************************************
  */
 
-GLFWwindow	*Scop::getWindow(void) {
+GLFWwindow	*Scop::getWindow(void) const {
 	return _window;
 }
 
-unsigned int	Scop::getShaderProgram(void) {
+const unsigned int	Scop::getShaderProgram(void) const {
 	return _shaderProgram;
 }
 
-unsigned int	Scop::getVBO(void) {
+const unsigned int	Scop::getVBO(void) const {
 	return _VBO;
 }
 
-unsigned int	Scop::getVAO(void) {
+const unsigned int	Scop::getVAO(void) const {
 	return _VAO;
 }
 
-unsigned int	Scop::getEBO(void) {
+const unsigned int	Scop::getEBO(void) const {
 	return _EBO;
 }
 
-vector<float>	Scop::getVertices(void) {
+const vector<float>	Scop::getVertices(void) const {
 	return _vertices;
 }
 
-vector<unsigned int>	Scop::getIndices(void) {
+const vector<unsigned int>	Scop::getIndices(void) const {
 	return _indices;
+}
+
+void Scop::setVertices(vector<Vertex> vertices) {
+	for (unsigned int i = 0; i < vertices.size(); i++) {
+		_vertices.push_back(vertices[i].x);
+		_vertices.push_back(vertices[i].y);
+		_vertices.push_back(vertices[i].z);
+	}
+}
+
+void Scop::setIndices(vector<Face> indices) {
+	for (unsigned int i = 0; i < indices.size(); i++) {
+		_indices.push_back(indices[i].v1 - 1);
+		_indices.push_back(indices[i].v2 - 1);
+		_indices.push_back(indices[i].v3 - 1);
+	}
 }

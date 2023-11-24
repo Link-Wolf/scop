@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:35:33 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/23 14:48:14 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/24 16:16:58 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,21 @@
 
  using namespace std;
 
+ struct Vertex
+ {
+	 float x, y, z;
+ };
+
+ struct Face
+ {
+	 unsigned int v1, v2, v3;
+ };
 
  unsigned int	compileShader(const string &path, GLenum shader_type);
 
  void			key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
- void			draw(Scop &scop);
+ void			draw(const Scop &scop);
 
 
 
