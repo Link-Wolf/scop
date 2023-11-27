@@ -6,11 +6,16 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:53:26 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/24 16:42:29 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/27 14:43:25 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/scop.hpp"
+
+extern float fov_thing;
+extern bool showroom;
+extern float angle;
+extern float zoom;
 
 void draw(const Scop &scop)
 {
@@ -40,12 +45,26 @@ void draw(const Scop &scop)
 	
 	// Loop until the user closes the window
     while (!glfwWindowShouldClose(scop.getWindow())) {
-
-		// Yew
+		if (showroom)
+			angle += 0.01f;
+			
+		// Get the time to send it to the shader
         glUniform1f(
-            glGetUniformLocation(scop.getShaderProgram(), "time"),
-            (float)glfwGetTime()
+            glGetUniformLocation(scop.getShaderProgram(), "angle"),
+            angle
         );
+		
+		// Get the fov to send it to the shader
+		glUniform1f(
+			glGetUniformLocation(scop.getShaderProgram(), "fov_thing"),
+			fov_thing
+		);
+
+		// Get the zoom to send it to the shader
+		glUniform1f(
+			glGetUniformLocation(scop.getShaderProgram(), "zoom"),
+			zoom
+		);
 
 		// Clear the screen
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);

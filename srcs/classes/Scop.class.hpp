@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:55:28 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/24 16:36:30 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/27 13:25:12 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ class Scop
 
 		Scop	&operator=(const Scop &rhs);
 		
-		GLFWwindow				*getWindow(void) const;		
+		GLFWwindow					*getWindow(void) const;		
 		const unsigned int			getShaderProgram(void) const;
 		const unsigned int			getVBO(void) const;
 		const unsigned int			getVAO(void) const;

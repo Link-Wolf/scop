@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:03:17 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/24 16:50:18 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/27 14:42:03 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 #include "../includes/scop.hpp"
 
 GLenum currentPolygonMode = GL_FILL;
+float fov_thing = 1.0f;
+bool showroom = 1.0f;
+float angle = 0.0f;
+float zoom = 1.0f;
 
 int main(int argc, char **argv)
 {
@@ -36,14 +40,15 @@ int main(int argc, char **argv)
 
 	scop.addShaderProgram();
 	
-	// Set the key callback
+	// Set the key callback and mouse scroll callback
 	glfwSetKeyCallback(scop.getWindow(), key_callback);
+	glfwSetScrollCallback(scop.getWindow(), scroll_callback);
 
     glUseProgram(scop.getShaderProgram());
 
 	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL ); // GL_FILL / GL_LINE / GL_POINT
 	glEnable(GL_DEPTH_TEST); // So the triangles are drawn in the right order
-	glEnable(GL_CULL_FACE); // So the triangles are not transparent ? (I don't know, maybe it's the opposite) 
+	// glEnable(GL_CULL_FACE); // So the triangles are not transparent ? (I don't know, maybe it's the opposite) 
 	
 	// draw(parser.getScop());
 	draw(scop);

@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:55:31 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/24 16:56:39 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/27 13:55:43 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ Scop::Scop(void) {
         return ;
     }
 	
-	_window = glfwCreateWindow(1200, 1200, "scop", nullptr, nullptr); //Parameters: width, height, title, monitor, share
+	_window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "scop", nullptr, nullptr); //Parameters: width, height, title, monitor, share
 	if (!_window) {
 		cerr << "Failed to create GLFW window" << endl;
 		glfwTerminate();
@@ -163,8 +163,8 @@ void Scop::setVertices(vector<Vertex> vertices) {
 
 void Scop::setIndices(vector<Face> indices) {
 	for (unsigned int i = 0; i < indices.size(); i++) {
-		_indices.push_back(indices[i].v1 - 1);
-		_indices.push_back(indices[i].v2 - 1);
-		_indices.push_back(indices[i].v3 - 1);
+		_indices.push_back(indices[i].v1);
+		_indices.push_back(indices[i].v2);
+		_indices.push_back(indices[i].v3);
 	}
 }
