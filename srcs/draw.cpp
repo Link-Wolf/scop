@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:53:26 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/27 14:43:25 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/28 17:44:12 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ extern float fov_thing;
 extern bool showroom;
 extern float angle;
 extern float zoom;
+extern float x_translate;
+extern float y_translate;
+extern float angleX;
+extern float angleZ;
+extern bool monochrome;
+extern bool texture;
 
 void draw(const Scop &scop)
 {
@@ -40,19 +46,43 @@ void draw(const Scop &scop)
 
 
 	// tell OpenGL how it should interpret the vertex data (per vertex attribute)
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); // start at 0 / x y z / float type / normalize / size of each vertex / not offset
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); // layout 0 / x y z / float type / normalize / size of each vertex / not offset
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); // layout 1 / r g b / float type / normalize / size of each vertex / offset of 3 floats
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); // layout 2 / u v / float type / normalize / size of each vertex / offset of 6 floats
     glEnableVertexAttribArray(0); // enable the vertex attribute at location 0
+	glEnableVertexAttribArray(1); // enable the vertex attribute at location 1
+	glEnableVertexAttribArray(2); // enable the vertex attribute at location 2
 	
 	// Loop until the user closes the window
     while (!glfwWindowShouldClose(scop.getWindow())) {
 		if (showroom)
 			angle += 0.01f;
 			
-		// Get the time to send it to the shader
+		// Get the texture and send it to the shader
+		glUniform1i(
+			glGetUniformLocation(scop.getShaderProgram(), "isTextured"),
+			texture
+		);
+		
+		// Get the angles to send them to the shader
         glUniform1f(
-            glGetUniformLocation(scop.getShaderProgram(), "angle"),
+            glGetUniformLocation(scop.getShaderProgram(), "angleX"),
+            angleX
+        );
+		glUniform1f(
+            glGetUniformLocation(scop.getShaderProgram(), "angleY"),
             angle
         );
+		glUniform1f(
+            glGetUniformLocation(scop.getShaderProgram(), "angleZ"),
+            angleZ
+        );
+
+		// Get the monochrome to send it to the shader
+		glUniform1i(
+			glGetUniformLocation(scop.getShaderProgram(), "monochrome"),
+			monochrome
+		);
 		
 		// Get the fov to send it to the shader
 		glUniform1f(
@@ -64,6 +94,16 @@ void draw(const Scop &scop)
 		glUniform1f(
 			glGetUniformLocation(scop.getShaderProgram(), "zoom"),
 			zoom
+		);
+
+		// Get the x and y translation to send them to the shader
+		glUniform1f(
+			glGetUniformLocation(scop.getShaderProgram(), "x_translate"),
+			x_translate
+		);
+		glUniform1f(
+			glGetUniformLocation(scop.getShaderProgram(), "y_translate"),
+			y_translate
 		);
 
 		// Clear the screen

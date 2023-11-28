@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 15:09:00 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/27 13:51:37 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/28 14:34:25 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ class Parser
 	private:
 		unsigned int			_check = 1;
 		Scop					&_scop;
+
+		Color					generateColor(bool monochrome);
 
 	public:
 		Parser(Scop &scop, string filename);

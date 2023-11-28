@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:35:33 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/27 14:14:32 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/28 17:04:41 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,16 @@
  # define WINDOW_MIN_DRAW -0.5
  # define WINDOW_MAX_DRAW 0.5
 
+ struct Color
+ {
+	 float r, g, b;
+ };
+ 
  struct Vertex
  {
 	 float x, y, z;
+	 struct Color color;
+	 float u, v;
  };
 
  struct Face
@@ -50,7 +57,5 @@
  void			scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
  void			draw(const Scop &scop);
-
-
 
 #endif

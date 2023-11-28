@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:55:31 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/27 13:55:43 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/28 17:23:54 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,11 @@ void Scop::setVertices(vector<Vertex> vertices) {
 		_vertices.push_back(vertices[i].x);
 		_vertices.push_back(vertices[i].y);
 		_vertices.push_back(vertices[i].z);
+		_vertices.push_back(vertices[i].color.r);
+		_vertices.push_back(vertices[i].color.g);
+		_vertices.push_back(vertices[i].color.b);
+		_vertices.push_back(vertices[i].u);
+		_vertices.push_back(vertices[i].v);
 	}
 }
 
