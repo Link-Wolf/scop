@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:03:17 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/28 17:56:15 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/29 11:33:38 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,19 @@ int main(int argc, char **argv)
         return -1;
     }
 
-	Parser parser(scop, argv[1]);
+	// Load the image data
+	int width, height, numChannels;
+	unsigned char *img_data = stbi_load("textures/mlp.bmp", &width, &height, &numChannels, 0);
+
+	if(!img_data)
+	{
+		cerr << "Failed to load texture" << endl;
+		glDeleteProgram(scop.getShaderProgram());
+		glfwTerminate();
+		return -1;
+	}
+	
+	Parser parser(scop, argv[1], width, height);
 
 	scop.addShaderProgram();
 	
@@ -59,18 +71,8 @@ int main(int argc, char **argv)
 	glEnable(GL_DEPTH_TEST); // So the triangles are drawn in the right order
 	// glEnable(GL_CULL_FACE); // So the triangles are not transparent ? (I don't know, maybe it's the opposite) 
 
+
 	/* Manage texture */
-
-	int width, height, numChannels;
-	unsigned char *img_data = stbi_load("textures/mlp.bmp", &width, &height, &numChannels, 0);
-
-	if(!img_data)
-	{
-		cerr << "Failed to load texture" << endl;
-		glDeleteProgram(scop.getShaderProgram());
-		glfwTerminate();
-		return -1;
-	}
 	
 	GLuint texture;
 	glGenTextures(1, &texture);

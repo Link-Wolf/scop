@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 15:09:00 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/28 14:34:25 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/29 11:33:51 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ class Parser;
 # include "Scop.class.hpp"
 
 # include <algorithm>
+# include <limits>
 
 using namespace std;
 
@@ -30,7 +31,7 @@ class Parser
 		Color					generateColor(bool monochrome);
 
 	public:
-		Parser(Scop &scop, string filename);
+		Parser(Scop &scop, string filename, int width, int height);
 		~Parser();
 
 		Scop	&getScop(void);

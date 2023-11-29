@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 15:09:03 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/28 17:28:06 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/11/29 13:56:52 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  ******************************* CONSTRUCTOR **********************************
  */
 
-Parser::Parser(Scop &scop, string filename) 
+Parser::Parser(Scop &scop, string filename, int	width, int height) 
 : _scop(scop){
 	srand(time(NULL));
 	ifstream file(filename);
@@ -57,8 +57,38 @@ Parser::Parser(Scop &scop, string filename)
 				faceVertices.push_back(vertexIndex - 1);
 			}
 
+			// Calculate the u and v coordinates for each vertex so that the texture is not stretched
+
+			// Calculate bounding box (min and max values for x, y, and z)
+			float minX = std::numeric_limits<float>::max();
+			float minY = std::numeric_limits<float>::max();
+			float minZ = std::numeric_limits<float>::max();
+			float maxX = std::numeric_limits<float>::lowest();
+			float maxY = std::numeric_limits<float>::lowest();
+			float maxZ = std::numeric_limits<float>::lowest();
+
+			for (const auto& vertex : vertices) {
+				minX = std::min(minX, vertex.x);
+				minY = std::min(minY, vertex.y);
+				minZ = std::min(minZ, vertex.z);
+				maxX = std::max(maxX, vertex.x);
+				maxY = std::max(maxY, vertex.y);
+				maxZ = std::max(maxZ, vertex.z);
+			}
+
+			// Calculate range for each axis
+			float rangeX = maxX - minX;
+			float rangeY = maxY - minY;
+			float rangeZ = maxZ - minZ;
+
+			float maxRange = max({rangeX, rangeY, rangeZ});
+			
 			for (int i = 0; i < faceVertices.size(); i++) {
-				final_vertices.push_back({vertices[faceVertices[i]].x, vertices[faceVertices[i]].y, vertices[faceVertices[i]].z, color, vertices[faceVertices[i]].z, vertices[faceVertices[i]].y});
+				float u = (vertices[faceVertices[i]].x - minX) / maxRange;
+   				float v = (vertices[faceVertices[i]].y - minY) / maxRange;
+
+				
+				final_vertices.push_back({vertices[faceVertices[i]].x, vertices[faceVertices[i]].y, vertices[faceVertices[i]].z, color, u, v});
 				final_faceVertices.push_back(final_vertices.size() - 1);
 			}
 			
