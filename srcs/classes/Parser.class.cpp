@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 15:09:03 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/12/01 13:31:36 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/12/01 16:14:45 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,74 +30,169 @@ Parser::Parser(Scop &scop, string filename, int	width, int height)
 	vector<Vertex> vertices;
 	vector<Vertex> final_vertices;
 
+	bool parseError = false;
+
 	
 	string line;
 	while (getline(file, line)) {
 		
 		// Split on spaces and store the first substring in prefix
-		std::istringstream iss(line);
-        std::string prefix;
+		istringstream iss(line);
+        string prefix;
         iss >> prefix;
 
 		if (prefix == "v") {
 			Vertex vertex;
-			iss >> vertex.x >> vertex.y >> vertex.z;
 			vertex.color = {0, 0, 0};
-			vertices.push_back(vertex);
+			vector<string> values;
+
+			string temp;
+			while (iss >> temp) {
+				values.push_back(temp);
+			}
+
+			if (values.size() >= 3) {
+				try {
+					// Attempt to convert the first three strings to numeric values
+					vertex.x = stof(values[0]);
+					vertex.y = stof(values[1]);
+					vertex.z = stof(values[2]);
+
+					// Process the Vertex data
+					vertices.push_back(vertex);
+				} catch (const exception& e) {
+					// Conversion failed: Not all values are numeric
+					cerr << "Error: Conversion failed - Not enough numeric values for vertex\n";
+					parseError = true;
+					break;
+				}
+			} else {
+				// Error: Not enough values in the line
+				cerr << "Error: Insufficient values for vertex coordinates\n";
+				parseError = true;
+				break;
+			}
 		}
 		else if (prefix == "f") {
 			Color color = generateColor(false);
 			// Start from one vertex and draw a triangle with each pair of vertices
-			
-			// First store all the vertices of the face in a vector
-			vector<unsigned int> faceVertices;
-			vector<unsigned int> final_faceVertices;
-			unsigned int vertexIndex;
-			while (iss >> vertexIndex) {
-				faceVertices.push_back(vertexIndex - 1);
+
+			vector<string> values;
+
+			string temp;
+			while (iss >> temp) {
+				values.push_back(temp);
 			}
 
-			// Calculate the u and v coordinates for each vertex so that the texture is not stretched
-			// Calculate normal of the face
+			if (values.size() < 3) {
+				// Error: Not enough values in the line
+				cerr << "Error: Insufficient values for face coordinates\n";
+				parseError = true;
+				break;
+			}
 			
-			Vec3 v1 = {vertices[faceVertices[0]].x, vertices[faceVertices[0]].y, vertices[faceVertices[0]].z};
-			Vec3 v2 = {vertices[faceVertices[1]].x, vertices[faceVertices[1]].y, vertices[faceVertices[1]].z};
-			Vec3 v3 = {vertices[faceVertices[2]].x, vertices[faceVertices[2]].y, vertices[faceVertices[2]].z};
-			
-			Vec3 normal = (v2 - v1).cross(v3 - v1);
-			
-			normal = normal.normalize();
-			
-			for (int i = 0; i < faceVertices.size(); i++) {
-				
-				float u, v;
-				if (abs(normal.x) > abs(normal.y) && abs(normal.x) > abs(normal.z)) {
-					u = vertices[faceVertices[i]].y;
-					v = vertices[faceVertices[i]].z;
-				} else if (abs(normal.y) > abs(normal.x) && abs(normal.y) > abs(normal.z)) {
-					u = vertices[faceVertices[i]].x;
-					v = vertices[faceVertices[i]].z;
-				} else {
-					u = vertices[faceVertices[i]].x;
-					v = vertices[faceVertices[i]].y;
+			try {
+				// First store all the vertices of the face in a vector
+				vector<unsigned int> faceVertices;
+				vector<unsigned int> final_faceVertices;
+				unsigned int vertexIndex;
+
+				bool localError = false;
+				for (int i = 0; i < values.size(); i++) {
+
+					// if the line contains any / characters, remove the part after the first /, including the /
+					size_t pos = values[i].find("/");
+					if (pos != string::npos) {
+						values[i] = values[i].substr(0, pos);
+					}
+
+					// Attempt to convert the first three strings to numeric values
+					vertexIndex = stoi(values[i]);
+					faceVertices.push_back(vertexIndex - 1);
 				}
+
+				if (localError) {
+					// Conversion failed: Not all values are numeric
+					cerr << "Error: Conversion failed - Not enough numeric values for face\n";
+					parseError = true;
+					break;
+				}
+
+				// Calculate the u and v coordinates for each vertex so that the texture is not stretched
+				// Calculate normal of the face
+				if (faceVertices.size() < 3 || faceVertices[2] >= vertices.size() || faceVertices[1] >= vertices.size() || faceVertices[0] >= vertices.size()) {
+					// Error: Not enough values in the line
+					cerr << "Error: Insufficient values for face coordinates\n";
+					parseError = true;
+					break;
+				}
+				Vec3 v1 = {vertices[faceVertices[0]].x, vertices[faceVertices[0]].y, vertices[faceVertices[0]].z};
+				Vec3 v2 = {vertices[faceVertices[1]].x, vertices[faceVertices[1]].y, vertices[faceVertices[1]].z};
+				Vec3 v3 = {vertices[faceVertices[2]].x, vertices[faceVertices[2]].y, vertices[faceVertices[2]].z};
 				
-				final_vertices.push_back({vertices[faceVertices[i]].x, vertices[faceVertices[i]].y, vertices[faceVertices[i]].z, color, u, v});
-				final_faceVertices.push_back(final_vertices.size() - 1);
-			}
-			
-			// Then create a triangle with each pair of vertices
-			for (int i = 0; i < faceVertices.size() - 2; i++)
-			{
-				Face face;
-				face.v1 = final_faceVertices[0];
-				face.v2 = final_faceVertices[i + 1];
-				face.v3 = final_faceVertices[i + 2];
-				faces.push_back(face);
-			}
-			
+				Vec3 normal = (v2 - v1).cross(v3 - v1);
+				
+				normal = normal.normalize();
+				
+				for (int i = 0; i < faceVertices.size(); i++) {
+					if (faceVertices[i] >= vertices.size()) {
+						// Error: Not enough values in the line
+						cerr << "Error: Insufficient values for face coordinates\n";
+						parseError = true;
+						localError = true;
+						break;
+					}
+					float u, v;
+					if (abs(normal.x) > abs(normal.y) && abs(normal.x) > abs(normal.z)) {
+						u = vertices[faceVertices[i]].y;
+						v = vertices[faceVertices[i]].z;
+					} else if (abs(normal.y) > abs(normal.x) && abs(normal.y) > abs(normal.z)) {
+						u = vertices[faceVertices[i]].x;
+						v = vertices[faceVertices[i]].z;
+					} else {
+						u = vertices[faceVertices[i]].x;
+						v = vertices[faceVertices[i]].y;
+					}
+					
+					final_vertices.push_back({vertices[faceVertices[i]].x, vertices[faceVertices[i]].y, vertices[faceVertices[i]].z, color, u, v});
+					final_faceVertices.push_back(final_vertices.size() - 1);
+				}
+				if (localError) break;
+				
+				// Then create a triangle with each pair of vertices
+				for (int i = 0; i < faceVertices.size() - 2; i++)
+				{
+					if (faceVertices[i + 2] >= vertices.size() || faceVertices[i + 1] >= vertices.size() || faceVertices[i] >= vertices.size()) {
+						// Error: Not enough values in the line
+						cerr << "Error: Insufficient values for face coordinates\n";
+						parseError = true;
+						localError = true;
+						break;
+					}
+					Face face;
+					face.v1 = final_faceVertices[0];
+					face.v2 = final_faceVertices[i + 1];
+					face.v3 = final_faceVertices[i + 2];
+					faces.push_back(face);
+				}
+				if (localError) break;
+			} catch (const exception& e) {
+				// Conversion failed: Not all values are numeric
+				cerr << "Error: Conversion failed - Not enough numeric values for face\n";
+				parseError = true;
+				break;
+			}			
 		}
 		else continue;
+	}
+	if (faces.size() == 0) {
+		cerr << "Error: No faces found" << endl;
+		parseError = true;
+	}
+
+	if (parseError) {
+		cerr << "Error: Parsing failed" << endl;
+		return ;
 	}
 	
 	// For the vertices, scale them to be between -1 and 1
@@ -132,6 +227,7 @@ Parser::Parser(Scop &scop, string filename, int	width, int height)
 		final_vertices[i].y -= centerY;
 		final_vertices[i].z -= centerZ;
 	}
+
 	
 	_scop.setVertices(final_vertices);
 	_scop.setIndices(faces);

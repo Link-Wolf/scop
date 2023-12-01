@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:03:17 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/12/01 13:32:14 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/12/01 15:59:21 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,14 @@ int main(int argc, char **argv)
 	}
 	
 	Parser parser(scop, argv[1], width, height);
+
+	if (parser.check()) {
+		cerr << "Failed to parse file" << endl;
+		glDeleteProgram(scop.getShaderProgram());
+		glfwTerminate();
+		stbi_image_free(img_data);
+		return -1;
+	}
 
 	scop.addShaderProgram();
 	
