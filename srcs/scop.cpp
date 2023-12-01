@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:03:17 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/12/01 15:59:21 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/12/01 16:20:17 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 
 	// Load the image data
 	int width, height, numChannels;
-	unsigned char *img_data = stbi_load("textures/mlp.bmp", &width, &height, &numChannels, 0);
+	unsigned char *img_data = stbi_load("textures/kitten.bmp", &width, &height, &numChannels, 0);
 
 	if(!img_data)
 	{

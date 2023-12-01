@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 15:09:03 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/12/01 16:14:45 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/12/01 16:31:11 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ Parser::Parser(Scop &scop, string filename, int	width, int height)
 						v = vertices[faceVertices[i]].y;
 					}
 					
-					final_vertices.push_back({vertices[faceVertices[i]].x, vertices[faceVertices[i]].y, vertices[faceVertices[i]].z, color, u, v});
+					final_vertices.push_back({vertices[faceVertices[i]].x, vertices[faceVertices[i]].y, vertices[faceVertices[i]].z, color, u / 1, v / 1});
 					final_faceVertices.push_back(final_vertices.size() - 1);
 				}
 				if (localError) break;
