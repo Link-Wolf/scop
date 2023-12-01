@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:55:31 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/28 17:23:54 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/12/01 13:06:05 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ Scop::Scop(void) {
 	_fragment_shader = compileShader("srcs/shaders/first.frag", GL_FRAGMENT_SHADER);
 	if (!_fragment_shader)
 	{
-		cerr << "Failed to compile fragment shader" << endl;
+		cerr << "Failed to compile fragment shader, if it cannot be open, verify that you are at the root of the project" << endl;
 		glfwTerminate();
 		return ;
 	}
 	_vertex_shader = compileShader("srcs/shaders/second.vert", GL_VERTEX_SHADER);
 	if (!_vertex_shader)
 	{
-		cerr << "Failed to compile vertex shader" << endl;
+		cerr << "Failed to compile vertex shader, if it cannot be open, verify that you are at the root of the project" << endl;
 		glfwTerminate();
 		return ;
 	}

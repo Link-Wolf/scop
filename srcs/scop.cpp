@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:03:17 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/29 11:33:38 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/12/01 13:19:17 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 
 	// Load the image data
 	int width, height, numChannels;
-	unsigned char *img_data = stbi_load("textures/mlp.bmp", &width, &height, &numChannels, 0);
+	unsigned char *img_data = stbi_load("textures/kitten.bmp", &width, &height, &numChannels, 0);
 
 	if(!img_data)
 	{
@@ -92,7 +92,16 @@ int main(int argc, char **argv)
 	glActiveTexture(GL_TEXTURE0);
 	glUniform1i(glGetUniformLocation(scop.getShaderProgram(), "ourTexture"), 0); // Set the texture unit
 	
-	cout << "Controls :\n\tTAB :\t\tswitch between FILL and LINE mode\n\tM :\t\ttoggle monochrome\n\tArrows :\tmove the object\n\tMouse scroll :\tzoom in/out\n\tT :\t\ttoggle texturing\n\tR :\t\ttoggle showroom\n\t+/- :\t\tchange the reality\n\tESC :\t\tclose the window" << endl;
+	cout << "\033[1m\033[37mControls :\n"
+				<< "\t\033[1m\033[37mTAB :\t\t\033[0m\033[37mSwitch between FILL and LINE mode\n"
+				<< "\t\033[1m\033[37mM :\t\t\033[0m\033[37mToggle monochrome in triangle mode\n"
+				<< "\t\033[1m\033[37mArrows :\t\033[0m\033[37mMove the object\n" 
+				<< "\t\033[1m\033[37mMouse scroll :\t\033[0m\033[37mZoom in/out\n"
+				<< "\t\033[1m\033[37mT :\t\t\033[0m\033[37mToggle texturing\n"
+				<< "\t\033[1m\033[37mR :\t\t\033[0m\033[37mToggle showroom\n"
+				<< "\t\033[1m\033[37m+/- :\t\t\033[0m\033[37mChange the reality\n"
+				<< "\t\033[1m\033[37mESC :\t\t\033[0m\033[37mClose the window\033[0m"
+		<< endl;
 	
 	draw(scop);
 	

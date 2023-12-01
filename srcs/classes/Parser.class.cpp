@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 15:09:03 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/29 13:56:52 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/12/01 12:52:46 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ Parser::Parser(Scop &scop, string filename, int	width, int height)
 			float maxRange = max({rangeX, rangeY, rangeZ});
 			
 			for (int i = 0; i < faceVertices.size(); i++) {
-				float u = (vertices[faceVertices[i]].x - minX) / maxRange;
+				float u = (vertices[faceVertices[i]].z - minX) / maxRange;
    				float v = (vertices[faceVertices[i]].y - minY) / maxRange;
 
 				
