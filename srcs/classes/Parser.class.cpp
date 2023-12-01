@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 15:09:03 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/12/01 12:52:46 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/12/01 13:31:36 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,35 +58,29 @@ Parser::Parser(Scop &scop, string filename, int	width, int height)
 			}
 
 			// Calculate the u and v coordinates for each vertex so that the texture is not stretched
-
-			// Calculate bounding box (min and max values for x, y, and z)
-			float minX = std::numeric_limits<float>::max();
-			float minY = std::numeric_limits<float>::max();
-			float minZ = std::numeric_limits<float>::max();
-			float maxX = std::numeric_limits<float>::lowest();
-			float maxY = std::numeric_limits<float>::lowest();
-			float maxZ = std::numeric_limits<float>::lowest();
-
-			for (const auto& vertex : vertices) {
-				minX = std::min(minX, vertex.x);
-				minY = std::min(minY, vertex.y);
-				minZ = std::min(minZ, vertex.z);
-				maxX = std::max(maxX, vertex.x);
-				maxY = std::max(maxY, vertex.y);
-				maxZ = std::max(maxZ, vertex.z);
-			}
-
-			// Calculate range for each axis
-			float rangeX = maxX - minX;
-			float rangeY = maxY - minY;
-			float rangeZ = maxZ - minZ;
-
-			float maxRange = max({rangeX, rangeY, rangeZ});
+			// Calculate normal of the face
+			
+			Vec3 v1 = {vertices[faceVertices[0]].x, vertices[faceVertices[0]].y, vertices[faceVertices[0]].z};
+			Vec3 v2 = {vertices[faceVertices[1]].x, vertices[faceVertices[1]].y, vertices[faceVertices[1]].z};
+			Vec3 v3 = {vertices[faceVertices[2]].x, vertices[faceVertices[2]].y, vertices[faceVertices[2]].z};
+			
+			Vec3 normal = (v2 - v1).cross(v3 - v1);
+			
+			normal = normal.normalize();
 			
 			for (int i = 0; i < faceVertices.size(); i++) {
-				float u = (vertices[faceVertices[i]].z - minX) / maxRange;
-   				float v = (vertices[faceVertices[i]].y - minY) / maxRange;
-
+				
+				float u, v;
+				if (abs(normal.x) > abs(normal.y) && abs(normal.x) > abs(normal.z)) {
+					u = vertices[faceVertices[i]].y;
+					v = vertices[faceVertices[i]].z;
+				} else if (abs(normal.y) > abs(normal.x) && abs(normal.y) > abs(normal.z)) {
+					u = vertices[faceVertices[i]].x;
+					v = vertices[faceVertices[i]].z;
+				} else {
+					u = vertices[faceVertices[i]].x;
+					v = vertices[faceVertices[i]].y;
+				}
 				
 				final_vertices.push_back({vertices[faceVertices[i]].x, vertices[faceVertices[i]].y, vertices[faceVertices[i]].z, color, u, v});
 				final_faceVertices.push_back(final_vertices.size() - 1);

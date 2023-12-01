@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:55:31 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/12/01 13:06:05 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2023/12/01 13:35:19 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,7 @@ Scop::Scop(void) {
 		glfwTerminate();
 		return ;
 	}
-
-// 	_vertices = {
-//         0.0f, 0.5f, 0.0f,   	// S
-//         0.0f, -0.5f, -0.5f,    	// A
-//         -0.5f, -0.5f, 0.5f,		// B
-//         0.5f, -0.5f, 0.5f,		// C
-//     };
-//    _indices = {  // note that we start from 0!
-//         0, 1, 2,            // SBA
-//         0, 2, 3,            // SBC
-//         0, 3, 1,            // SCA
-//         1, 3, 2             // ACB
-//     };
-	
+		
 	_check = 0;
 }
 
