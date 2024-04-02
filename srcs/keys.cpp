@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 14:57:40 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/28 17:44:39 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2024/04/02 15:38:21 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		if (currentPolygonMode == GL_FILL) {
 			currentPolygonMode = GL_LINE;
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+		else if (currentPolygonMode == GL_LINE){
+			currentPolygonMode = GL_POINT;
+			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 		}
 		else {
 			currentPolygonMode = GL_FILL;
