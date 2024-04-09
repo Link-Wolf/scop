@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 15:09:00 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/29 11:33:51 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2024/04/09 14:50:17 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ class Parser
 
 		Scop	&getScop(void);
 		
-		void	parse(string filename);
 		bool	check(void);
 };
 

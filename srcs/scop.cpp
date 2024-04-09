@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:03:17 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/12/01 16:20:17 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2024/04/09 15:09:49 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ float angleZ = 0.0f;
 float zoom = 1.0f;
 float x_translate = 0.0f;
 float y_translate = 0.0f;
-bool monochrome = true;
+int color_type = 0;
 bool texture = false;
 
 int main(int argc, char **argv)
 {
 	//check that there is only one argument and that it is a .obj file
-	if (argc != 2 || string(argv[1]).compare(string(argv[1]).size() - 4, 4, ".obj")) {
+	if (argc != 2 || string(argv[1]).size() < 4 || string(argv[1]).compare(string(argv[1]).size() - 4, 4, ".obj")) {
 		cerr << "Usage: ./scop <filename>.obj" << endl;
 		return -1;
 	}
@@ -44,6 +44,8 @@ int main(int argc, char **argv)
         glfwTerminate();
         return -1;
     }
+
+	cout << "\033[1m\033[37mProcessing the object..\033[0m\r" << flush;
 
 	// Load the image data
 	int width, height, numChannels;
@@ -100,9 +102,10 @@ int main(int argc, char **argv)
 	glActiveTexture(GL_TEXTURE0);
 	glUniform1i(glGetUniformLocation(scop.getShaderProgram(), "ourTexture"), 0); // Set the texture unit
 	
+	cout << "                                                                           \r";
 	cout << "\033[1m\033[37mControls :\n"
-				<< "\t\033[1m\033[37mTAB :\t\t\033[0m\033[37mSwitch between FILL and LINE mode\n"
-				<< "\t\033[1m\033[37mM :\t\t\033[0m\033[37mToggle monochrome in triangle mode\n"
+				<< "\t\033[1m\033[37mTAB :\t\t\033[0m\033[37mSwitch between FILL, LINE and POINT mode\n"
+				<< "\t\033[1m\033[37mM :\t\t\033[0m\033[37mToggle color_type in triangle mode (monochrome, colors or normale)\n"
 				<< "\t\033[1m\033[37mArrows :\t\033[0m\033[37mMove the object\n" 
 				<< "\t\033[1m\033[37mMouse scroll :\t\033[0m\033[37mZoom in/out\n"
 				<< "\t\033[1m\033[37mT :\t\t\033[0m\033[37mToggle texturing\n"

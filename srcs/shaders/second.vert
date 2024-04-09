@@ -2,6 +2,7 @@
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aColor;
 layout (location = 2) in vec2 aTexCoord;
+layout (location = 3) in vec3 aNormal;
 
 uniform float angleX;
 uniform float angleY;
@@ -10,7 +11,7 @@ uniform float fov_thing;
 uniform float zoom;
 uniform float x_translate;
 uniform float y_translate;
-uniform int monochrome;
+uniform int color_type;
 uniform int texture;
 
 flat out vec3 ourColor;
@@ -56,8 +57,10 @@ void main()
 	// Application de la projection
 	vec4 projected = projection * rotated;
     gl_Position = projected;
-	if (monochrome == 1)
+	if (color_type == 0)
 		ourColor = vec3(aColor.r, aColor.r, aColor.r);
+	else if (color_type == 2)
+		ourColor = vec3(aNormal.x, aNormal.y, aNormal.z);
 	else
 		ourColor = aColor;
 	uv = aTexCoord;

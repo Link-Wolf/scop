@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 15:09:03 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/12/01 16:31:11 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2024/04/08 18:10:45 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ Parser::Parser(Scop &scop, string filename, int	width, int height)
 
 	
 	string line;
+	int line_number = 0;
 	while (getline(file, line)) {
+		line_number++;
 		
 		// Split on spaces and store the first substring in prefix
 		istringstream iss(line);
@@ -62,13 +64,13 @@ Parser::Parser(Scop &scop, string filename, int	width, int height)
 					vertices.push_back(vertex);
 				} catch (const exception& e) {
 					// Conversion failed: Not all values are numeric
-					cerr << "Error: Conversion failed - Not enough numeric values for vertex\n";
+					cerr << "Error: Conversion failed - Not enough numeric values for vertex (line " << line_number << ")\n";
 					parseError = true;
 					break;
 				}
 			} else {
 				// Error: Not enough values in the line
-				cerr << "Error: Insufficient values for vertex coordinates\n";
+				cerr << "Error: Insufficient values for vertex coordinates (line " << line_number << ")\n";
 				parseError = true;
 				break;
 			}
@@ -86,7 +88,7 @@ Parser::Parser(Scop &scop, string filename, int	width, int height)
 
 			if (values.size() < 3) {
 				// Error: Not enough values in the line
-				cerr << "Error: Insufficient values for face coordinates\n";
+				cerr << "Error: Insufficient values for face coordinates (line " << line_number << ")\n";
 				parseError = true;
 				break;
 			}
@@ -113,7 +115,7 @@ Parser::Parser(Scop &scop, string filename, int	width, int height)
 
 				if (localError) {
 					// Conversion failed: Not all values are numeric
-					cerr << "Error: Conversion failed - Not enough numeric values for face\n";
+					cerr << "Error: Conversion failed - Not enough numeric values for face (line " << line_number << ")\n";
 					parseError = true;
 					break;
 				}
@@ -122,7 +124,7 @@ Parser::Parser(Scop &scop, string filename, int	width, int height)
 				// Calculate normal of the face
 				if (faceVertices.size() < 3 || faceVertices[2] >= vertices.size() || faceVertices[1] >= vertices.size() || faceVertices[0] >= vertices.size()) {
 					// Error: Not enough values in the line
-					cerr << "Error: Insufficient values for face coordinates\n";
+					cerr << "Error: Insufficient values for face coordinates (line " << line_number << ")\n";
 					parseError = true;
 					break;
 				}
@@ -137,7 +139,7 @@ Parser::Parser(Scop &scop, string filename, int	width, int height)
 				for (int i = 0; i < faceVertices.size(); i++) {
 					if (faceVertices[i] >= vertices.size()) {
 						// Error: Not enough values in the line
-						cerr << "Error: Insufficient values for face coordinates\n";
+						cerr << "Error: Insufficient values for face coordinates (line " << line_number << ")\n";
 						parseError = true;
 						localError = true;
 						break;
@@ -153,8 +155,9 @@ Parser::Parser(Scop &scop, string filename, int	width, int height)
 						u = vertices[faceVertices[i]].x;
 						v = vertices[faceVertices[i]].y;
 					}
-					
-					final_vertices.push_back({vertices[faceVertices[i]].x, vertices[faceVertices[i]].y, vertices[faceVertices[i]].z, color, u / 1, v / 1});
+					Vec3 normal = ((v2 - v1).cross(v3 - v1)).normalize();
+					Color normale = {(normal.x + 1) / 2, (normal.y + 1) / 2, (normal.z + 1) / 2};
+					final_vertices.push_back({vertices[faceVertices[i]].x, vertices[faceVertices[i]].y, vertices[faceVertices[i]].z, color, u / 1, v / 1, normale});
 					final_faceVertices.push_back(final_vertices.size() - 1);
 				}
 				if (localError) break;
@@ -164,7 +167,7 @@ Parser::Parser(Scop &scop, string filename, int	width, int height)
 				{
 					if (faceVertices[i + 2] >= vertices.size() || faceVertices[i + 1] >= vertices.size() || faceVertices[i] >= vertices.size()) {
 						// Error: Not enough values in the line
-						cerr << "Error: Insufficient values for face coordinates\n";
+						cerr << "Error: Insufficient values for face coordinates (line " << line_number << ")\n";
 						parseError = true;
 						localError = true;
 						break;
@@ -178,7 +181,7 @@ Parser::Parser(Scop &scop, string filename, int	width, int height)
 				if (localError) break;
 			} catch (const exception& e) {
 				// Conversion failed: Not all values are numeric
-				cerr << "Error: Conversion failed - Not enough numeric values for face\n";
+				cerr << "Error: Conversion failed - Not enough numeric values for face (line " << line_number << ")\n";
 				parseError = true;
 				break;
 			}			
@@ -246,10 +249,6 @@ Parser::~Parser(void) {
 /*
  ******************************** METHODS *************************************
  */
-
-void	Parser::parse(string filename) {
-	
-}
 
 bool	Parser::check(void) {
 	return _check;

@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:53:26 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/11/28 17:44:12 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2024/04/09 14:50:57 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ extern float x_translate;
 extern float y_translate;
 extern float angleX;
 extern float angleZ;
-extern bool monochrome;
+extern int color_type;
 extern bool texture;
+extern bool normal;
 
 void draw(const Scop &scop)
 {
@@ -46,12 +47,14 @@ void draw(const Scop &scop)
 
 
 	// tell OpenGL how it should interpret the vertex data (per vertex attribute)
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); // layout 0 / x y z / float type / normalize / size of each vertex / not offset
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); // layout 1 / r g b / float type / normalize / size of each vertex / offset of 3 floats
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); // layout 2 / u v / float type / normalize / size of each vertex / offset of 6 floats
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)0); // layout 0 / x y z / float type / normalize / size of each vertex / not offset
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(3 * sizeof(float))); // layout 1 / r g b / float type / normalize / size of each vertex / offset of 3 floats
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(6 * sizeof(float))); // layout 2 / u v / float type / normalize / size of each vertex / offset of 6 floats
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float))); // layout 3 / nr ng nb / float type / normalize / size of each vertex / offset of 8 floats
     glEnableVertexAttribArray(0); // enable the vertex attribute at location 0
 	glEnableVertexAttribArray(1); // enable the vertex attribute at location 1
 	glEnableVertexAttribArray(2); // enable the vertex attribute at location 2
+	glEnableVertexAttribArray(3); // enable the vertex attribute at location 3
 	
 	// Loop until the user closes the window
     while (!glfwWindowShouldClose(scop.getWindow())) {
@@ -78,10 +81,10 @@ void draw(const Scop &scop)
             angleZ
         );
 
-		// Get the monochrome to send it to the shader
+		// Get the color_type to send it to the shader
 		glUniform1i(
-			glGetUniformLocation(scop.getShaderProgram(), "monochrome"),
-			monochrome
+			glGetUniformLocation(scop.getShaderProgram(), "color_type"),
+			color_type
 		);
 		
 		// Get the fov to send it to the shader

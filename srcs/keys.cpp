@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 14:57:40 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2024/04/02 15:38:21 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2024/04/09 14:51:31 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ extern float x_translate;
 extern float y_translate;
 extern float angleX;
 extern float angleZ;
-extern bool monochrome;
+extern int color_type;
 extern bool texture;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -46,13 +46,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		}
 	}
 	
-	/* Toggle the monochrome using M */
+	/* Toggle the color_type using M */
 	if (key == GLFW_KEY_M && action == GLFW_PRESS)
 	{
-		if (monochrome)
-			monochrome = false;
-		else
-			monochrome = true;
+		color_type = (color_type + 1) % 3;
 	}
 	
 	/* Add or substract to fov following + and - */

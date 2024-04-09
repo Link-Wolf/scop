@@ -6,7 +6,7 @@
 /*   By: xxxxxxx <xxxxxxx@student.42mulhouse.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:35:33 by xxxxxxx           #+#    #+#             */
-/*   Updated: 2023/12/01 13:31:27 by xxxxxxx          ###   ########.fr       */
+/*   Updated: 2024/04/08 18:03:07 by xxxxxxx          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 	 float x, y, z;
 	 struct Color color;
 	 float u, v;
+	 struct Color normale;
  };
 
  struct Vec3
