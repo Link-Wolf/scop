@@ -130,13 +130,13 @@ Render only the vertices / Render only the wires linking the vertices / Render t
  <table>
   <tr>
    <td>
-    <img src="assets/skull_dots.png" alt="skull rendered only showing vertices">
+    <img src="assets/skull_dots.png" alt="skull rendered only showing vertices"/>
    </td>
    <td>
-    <img src="assets/skull_wire.png" alt="skull rendered only showing wires linking vertices">
+    <img src="assets/skull_wire.png" alt="skull rendered only showing wires linking vertices"/>
    </td>
    <td>
-    <img src="assets/skull_face.png" alt="skull rendered showing full faces">
+    <img src="assets/skull_face.png" alt="skull rendered showing full faces"/>
    </td>
   </tr>
  </table>
@@ -146,13 +146,13 @@ Render only the vertices / Render only the wires linking the vertices / Render t
  <table>
   <tr>
    <td>
-    <img src="assets/skull_normale.png" alt="skull rendered with texture">
+    <img src="assets/skull_normale.png" alt="skull rendered with texture"/>
    </td>
    <td>
-    <img src="assets/skull_text.png" alt="skull rendered with light">
+    <img src="assets/skull_text.png" alt="skull rendered with light"/>
    </td>
   </tr>
- <table>
+ </table>
 </div>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
